@@ -1,0 +1,26 @@
+services:
+  minecraft_server:
+    image: itzg/minecraft-server
+    ports:
+      - ${PORT}:25565
+    env_file:
+      - .env
+    environment:
+      - EULA=TRUE
+      - SERVER_NAME=${SERVER_NAME}
+      - MOTD=${MOTD}
+      - GAMEMODE=${GAMEMODE}
+      - MAX_PLAYERS=${MAX_PLAYERS}
+      - DIFFICULTY=${DIFFICULTY}
+      - TYPE=${TYPE}
+      - MEMORY=${MEMORY}
+      - PORT=${PORT}
+    volumes:
+      - ./minecraft-data:/data
+    healthcheck:
+      test: ['CMD', '/usr/local/bin/mc-monitor', 'status', '--host', 'localhost']
+      interval: 2s
+      timeout: 10s
+      retries: 15
+volumes:
+  minecraft-data:
